@@ -11,10 +11,11 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import Dropzone from "react-dropzone";
 import FlexBetween from "../../components/FlexBetween";
+import {setLogin} from '../../state/index'
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("First name is required"),
@@ -49,7 +50,7 @@ const initialValuesLogin = {
 const Form = () => {
   const [pageType, setPageType] = useState("login");
   const { palette } = useTheme();
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const isNonMobileScreens = useMediaQuery("(min-width: 600px)");
   const isLogin = pageType === "login";
@@ -90,13 +91,13 @@ const Form = () => {
     onSubmitProps.resetForm();
     if (loggedIn) {
       console.log(loggedIn);
-      //   dispatch(
-      //     setLogin({
-      //       user: loggedIn.user,
-      //       token: loggedIn.token,
-      //     })
-      //   );
-    //   navigate("/home");
+        dispatch(
+          setLogin({
+            user: loggedIn.user,
+            token: loggedIn.token,
+          })
+        );
+        navigate("/home");
     }
   };
 
@@ -139,6 +140,7 @@ const Form = () => {
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={values.firstName}
+                  name="firstName"
                   error={
                     Boolean(touched.firstname) && Boolean(errors.firstname)
                   }
@@ -238,16 +240,16 @@ const Form = () => {
               sx={{ gridColumn: "span 4" }}
             />
           </Box>
-            {/* BUTTONS */}
+          {/* BUTTONS */}
 
-            <Box>
+          <Box>
             <Button
               fullWidth
               type="submit"
               sx={{
                 m: "2rem 0",
                 p: "1rem",
-              
+
                 "&:hover": { color: palette.primary.main },
               }}
             >
@@ -258,7 +260,7 @@ const Form = () => {
               onClick={() => {
                 setPageType(isLogin ? "register" : "login");
                 resetForm();
-              }}     
+              }}
               sx={{
                 textDecoration: "underline",
                 color: palette.primary.main,
@@ -272,7 +274,7 @@ const Form = () => {
                 ? "Don't have an account? Sign Up here."
                 : "Already have an account? Login here."}
             </Typography>
-            </Box>
+          </Box>
         </form>
       )}
     </Formik>

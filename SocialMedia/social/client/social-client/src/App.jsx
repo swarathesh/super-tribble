@@ -4,19 +4,28 @@ import { useSelector } from "react-redux";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import LoginPage from "./scenes/loginPage";
+import { themeSettings } from "./theme";
+
+
+
 
 function App() {
-  return (
-    <div className="app"> 
-      <BrowserRouter>
-       <CssBaseline />
-        <Routes>  
-          <Route path="/" element={<LoginPage />} />
+  const mode = useSelector((state) => state.mode);
+  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+  const isAuth = Boolean(useSelector((state) => state.token));
 
-       </Routes>
+  return (
+    <div className="app">
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Routes>
+            <Route path="/" element={<LoginPage />} />
+          </Routes>
+        </ThemeProvider>
       </BrowserRouter>
     </div>
-  )
+  );
 }
 
 export default App
