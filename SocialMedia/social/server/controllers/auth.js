@@ -9,7 +9,7 @@ export const register = async (req, res) => {
         lastName,
         email,
         password,
-        picturePath,
+        picture,
         friends,
         location,
         occupation,
@@ -25,7 +25,7 @@ export const register = async (req, res) => {
         lastName,
         email,
         password: passwordHash,
-        picturePath,
+        picturePath: picture,
         friends,
         location,
         occupation,
@@ -60,7 +60,7 @@ if(!isMatch) return res.status(400).json({message: "Invalid credentials"});
 
 const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 delete user.password;
-res.status(200).json({result: user, token});
+res.status(200).json({ user, token});
 
 }catch(err){
     res.status(500).json({error: err.message});

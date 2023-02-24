@@ -9,7 +9,11 @@ import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
 import authRoutes from "../server/routes/auth.js";
+import postRoutes from "../server/routes/posts.js";
 import { register } from './controllers/auth.js';
+import { createPost } from "./controllers/posts.js";
+
+import { verifyToken } from "./middleware/auth.js";
 
 
 
@@ -42,10 +46,14 @@ const upload = multer({ storage });
 
 // Routes with files
 app.post("/auth/register", upload.single("picture"), register);
+app.post("/posts", verifyToken, upload.single("picture"), createPost);
+
 
 
 
 app.use("/auth", authRoutes);
+app.use("/posts", postRoutes);
+
 
 
 const  PORT = process.env.PORT || 5000;
