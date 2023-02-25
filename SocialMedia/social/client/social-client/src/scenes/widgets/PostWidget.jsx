@@ -24,15 +24,25 @@ const PostWidget = ({
   comments,
 }) => {
   return (
-    <WidgetWrapper>
+    <WidgetWrapper m="2rem 0">
       <Friend
         friendId={postUserId}
         name={name}
         subtitle={location}
         userPicturePath={userPicturePath}
       />
-     <Typography variant="body1">{description}</Typography>
-     {picturePath && <img src={`http://localhost:3001/assets/${picturePath}`} alt="post" />}
+      <Typography color="black" sx={{ mt: "1rem" }}>
+        {description}
+      </Typography>
+      {picturePath && (
+        <img
+          width="50%"
+          height="auto"
+          alt="post"
+          style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
+          src={`http://localhost:3001/assets/${picturePath}`}
+        />
+      )}
     </WidgetWrapper>
   );
 };
